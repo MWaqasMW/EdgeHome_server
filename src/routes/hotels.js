@@ -3,6 +3,7 @@ import Hotel from "../models/Hotel.js";
 
 const router = express.Router();
 
+// Create a new hotel
 router.post("/", async (req, res) => {
   try {
     const newHotel = new Hotel(req.body);
@@ -32,6 +33,7 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// Delete a hotel by ID
 router.delete("/:id", async (req, res) => {
   try {
     const deletedHotel = await Hotel.findByIdAndDelete(req.params.id);
@@ -45,6 +47,7 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// Get all hotels
 router.get("/", async (req, res) => {
   try {
     const allHotels = await Hotel.find();
@@ -54,6 +57,8 @@ router.get("/", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+// Get a single hotel by ID
 router.get("/:id", async (req, res) => {
   try {
     const oneHotel = await Hotel.findById(req.params.id);
