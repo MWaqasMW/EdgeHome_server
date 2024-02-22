@@ -32,7 +32,17 @@ export const loginUser = async (req, res, next) => {
     if (!isCorrect) {
       return next(createError(401, "Password is Incorrect"));
     }
-    const data = generateTokens(user);
+
+    const { password: userPassword, isAdmin, ...others } = user?._doc;
+
+    const token = generateTokens(user);
+    const data = {
+      ...others,
+      token,
+    };
+    res.cookie("access_token", token?.accessToken, {
+      httpOnly: true,
+    });
     res.status(200).json(data);
   } catch (error) {
     next(error);
