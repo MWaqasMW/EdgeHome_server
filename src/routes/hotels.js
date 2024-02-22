@@ -7,17 +7,18 @@ import {
   getHotel,
   updateHotel,
 } from "../controller/hotels.js";
+import { verfiyAdmin } from "../utils/verfiy.js";
 
 const router = express.Router();
 
 // Create a new hotel
-router.post("/", createHotel);
+router.post("/", verfiyAdmin, createHotel);
 
 // Update an existing hotel by ID
-router.put("/:id", updateHotel);
+router.put("/:id", verfiyAdmin, updateHotel);
 
 // Delete a hotel by ID
-router.delete("/:id", deletebyIdHotel);
+router.delete("/:id", verfiyAdmin, deletebyIdHotel);
 
 // Get all hotels
 router.get("/", getHotel);

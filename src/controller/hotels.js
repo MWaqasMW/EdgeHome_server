@@ -1,4 +1,5 @@
 import Hotel from "../models/Hotel.js";
+import { createError } from "../utils/error.js";
 
 export const createHotel = async (req, res, next) => {
   try {
@@ -12,12 +13,12 @@ export const createHotel = async (req, res, next) => {
 export const updateHotel = async (req, res, next) => {
   try {
     const updatedHotel = await Hotel.findByIdAndUpdate(
-      req.params.id,
+      req.params?.id,
       req.body,
       { new: true }
     );
     if (!updatedHotel) {
-      return res.status(404).json({ error: "Hotel not found" });
+      return next(createError(404, "Not Found"));
     }
     res.status(200).json(updatedHotel);
   } catch (error) {
@@ -27,6 +28,7 @@ export const updateHotel = async (req, res, next) => {
 export const getHotel = async (req, res, next) => {
   try {
     const allHotels = await Hotel.find();
+    if (!allHotels) return next(404, "Not Found");
     res.status(200).json(allHotels);
   } catch (error) {
     console.error(error);
@@ -38,7 +40,7 @@ export const deletebyIdHotel = async (req, res, next) => {
   try {
     const deletedHotel = await Hotel.findByIdAndDelete(req.params.id);
     if (!deletedHotel) {
-      return res.status(404).json({ error: "Hotel not found" });
+      return next(createError(404, "Not Found"));
     }
     res.status(200).json({ message: "Hotel deleted successfully" });
   } catch (error) {
@@ -48,6 +50,7 @@ export const deletebyIdHotel = async (req, res, next) => {
 export const getByIdHotel = async (req, res, next) => {
   try {
     const findOne = await Hotel.findById(req.params.id);
+    if (!findOne) return next(createError(404, "Not Found"));
     res.status(200).json(findOne);
   } catch (error) {
     next(error);

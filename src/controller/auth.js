@@ -5,7 +5,6 @@ import { generateTokens } from "../utils/genToken.js";
 
 export const registerUser = async (req, res, next) => {
   const { password, ...rest } = req.body;
-  console.log("rejPassword", password);
   const salt = bcrypt.genSaltSync(8);
   const hash = bcrypt.hashSync(password, salt);
 

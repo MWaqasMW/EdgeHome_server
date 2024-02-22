@@ -6,22 +6,30 @@ import {
   getUser,
   updateUser,
 } from "../controller/users.js";
-import { verfiyToken } from "../utils/verfiyToken.js";
+import { verfiyAdmin, verfiyToken, verfiyUser } from "../utils/verfiy.js";
 
 const router = express.Router();
 
 // Create a new User
 
+// router.get("/check/:id", verfiyUser, (req, res, next) => {
+//     res.json("your are allowed fo this");
+//   });
+
+//   router.get("/checkAdmin", verfiyAdmin, (req, res, next) => {
+//     res.json("your are Admin");
+//   });
+
 // Update an existing User by ID
-router.put("/:id", verfiyToken, updateUser);
+router.put("/:id", verfiyUser, updateUser);
 
 // Delete a User by ID
-router.delete("/:id", deletebyIdUser);
+router.delete("/:id", verfiyUser, deletebyIdUser);
 
 // Get all Users
-router.get("/", getUser);
+router.get("/", verfiyAdmin, getUser);
 
 // Get a single User by ID
-router.get("/:id", getByIdUser);
+router.get("/:id", verfiyUser, getByIdUser);
 
 export default router;
