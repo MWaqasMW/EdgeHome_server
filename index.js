@@ -24,9 +24,6 @@ app.use("/api/room", roomRouter);
 app.use("/api/user", userRouter);
 
 app.use((err, req, res, next) => {
-  const falied = true;
-  if (falied) return next(createError(401, "you are not authorize"));
-
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong!";
   return res.status(errorStatus).json({
