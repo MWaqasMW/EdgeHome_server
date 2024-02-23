@@ -1,13 +1,27 @@
-import express from "express"
+import express from "express";
+import {
+  createRoom,
+  deletebyIdRoom,
+  getByIdRoom,
+  getRooms,
+  updateRoom,
+} from "../controller/room.js";
+import { verfiyAdmin } from "../utils/verfiy.js";
 
-const router = express.Router()
+const router = express.Router();
 
+router.post("/:hotelId", verfiyAdmin, createRoom);
 
-router.get("/", (req, res) => {
-    res.send("hello auth")
-})
-router.get("/register", (req, res) => {
-    res.send("hello register")
-})
+// Update an existing hotel by ID
+router.put("/:id", verfiyAdmin, updateRoom);
 
-export default router
+// Delete a Room by ID
+router.delete("/:id/:hotelId", verfiyAdmin, deletebyIdRoom);
+
+// Get all Rooms
+router.get("/", getRooms);
+
+// Get a single Room by ID
+router.get("/:id", getByIdRoom);
+
+export default router;
